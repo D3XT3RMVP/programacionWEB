@@ -124,6 +124,7 @@ class FullNews extends Component {
           <img src={this.state.image} className="card-img-top" alt="" />
           <div className="card-body">
             <h5 className="card-title">{this.state.title}</h5>
+            <h4 className="card-title">{this.state.author}</h4>
             <p className="card-text text-justify">{this.state.content}</p>
             <div className="row">
               <div className="col-11"><p className="text-right">{this.state.likes}</p></div>
