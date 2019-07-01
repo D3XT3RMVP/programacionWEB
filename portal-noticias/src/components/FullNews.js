@@ -17,6 +17,7 @@ class FullNews extends Component {
       likes: "",
       section: "",
       title: "",
+      newComments: [],
     };
   }
 
@@ -77,6 +78,13 @@ class FullNews extends Component {
   }
 
   onClickComment() {
+    var newComments = this.state.newComments;
+    newComments.push({
+      comment: this.state.comment,
+    });
+    this.setState({
+      newComents: this.newComents,
+    });
     let FieldValue = require('firebase').firestore.FieldValue;
     db.collection("news/").doc(this.props.match.params.id.toString()).collection("comments").add({
       comment: this.state.comment,
@@ -101,6 +109,14 @@ class FullNews extends Component {
       <Comment obj={object} key={object.id}/>);
   }
 
+  newsCommentsList(){
+    return this.state.newComments.map((object, i)=> 
+      <li className="list-group-item" key={i}>
+        <p className="text-justify">{object.comment} - Hace un momento</p>
+      </li>
+    );
+  }
+
   render() {
     return(
       <div className="container-fluid">
@@ -117,6 +133,7 @@ class FullNews extends Component {
         </div>
         <ul className="list-group">
           {this.CommentsList()}
+          {this.newsCommentsList()}
         </ul>
         <div className="input-group">
           <input type="text" className="form-control" placeholder="Comentar" onChange={this.onChangeComment}/>
