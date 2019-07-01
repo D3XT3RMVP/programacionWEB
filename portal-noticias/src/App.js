@@ -28,7 +28,7 @@ class App extends Component {
             <div className="row">
               <div className="col-9">
                 <h5 className="text-uppercase">Acerca de Nosotros</h5>
-                <p>Here you can use rows and columns to organize your footer content.</p>
+                <p>La página de noticias donde encontrarás las mejores noticias con anticipación.</p>
               </div>
               <div className="col-3">
                 <h5 className="text-uppercase">Links</h5>

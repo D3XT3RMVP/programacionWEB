@@ -5,6 +5,7 @@ import db from "../firebasedb";
 import CRUD from './viewNews';
 import Edit from './EditNews';
 import Create from './CreateNews';
+import CreateUser from './CreateUser';
 
 class Login extends Component {
   constructor(props){
@@ -14,6 +15,7 @@ class Login extends Component {
     this.state = {
       user: '',
       password: '',
+      id: '',
       logged: false,
     };
   }
@@ -31,15 +33,17 @@ class Login extends Component {
   }
 
   login() {
-    var ref = db.collection("users").where('user', '==', this.state.user.toString()).where('password', '==', this.state.password.toString());
-    ref.get()
+    db.collection("users").doc(this.state.user.toString()).get()
       .then(snapshot =>{
-        snapshot.forEach(doc => {
-          console.log("Ingresó correctamente: " + doc.data().user);
-        });
-        this.setState({
-          logged: true,
-        });
+        if(snapshot.exists && snapshot.data().password == this.state.password){
+          this.setState({
+            logged: true,
+          });
+          console.log("Ingresó correctamente: " + snapshot.id);
+        }
+        else{
+          alert("Usuario o contraseña incorrectos");
+        }
       })
       .catch(err => console.log(err));
   }
@@ -57,6 +61,9 @@ class Login extends Component {
                   <li className="navbar-item">
                     <Link to="/login/create" className="nav-link">Agregar Noticia</Link>
                   </li>
+                  <li className="navbar-item">
+                    <Link to="/login/createUser" className="nav-link">Agregar Usuario</Link>
+                  </li>
                 </ul>
               </div>
             </nav>
@@ -64,6 +71,7 @@ class Login extends Component {
         <Route path="/login" exact component={CRUD} />
         <Route path="/login/edit/:id" component={Edit}/>
         <Route path="/login/create" component={Create} />
+        <Route path="/login/createUser" component={CreateUser} />
       </Router>
     );
     return (
